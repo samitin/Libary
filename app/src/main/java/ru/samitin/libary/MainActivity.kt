@@ -18,13 +18,9 @@ class MainActivity : AppCompatActivity() , MainView {
         vb = ActivityMainBinding.inflate(layoutInflater)
         setContentView(vb?.root)
 
-        val listener = View.OnClickListener {
-            presenter.counterClick(it.id)
-        }
-
-        vb?.btnCounter1?.setOnClickListener(listener)
-        vb?.btnCounter2?.setOnClickListener(listener)
-        vb?.btnCounter3?.setOnClickListener(listener)
+        vb?.btnCounter1?.setOnClickListener { presenter.counterClick(MainPresenter.ButtonType.SSECOND) }
+        vb?.btnCounter2?.setOnClickListener { presenter.counterClick(MainPresenter.ButtonType.FIRST) }
+        vb?.btnCounter3?.setOnClickListener{presenter.counterClick(MainPresenter.ButtonType.THIRD)}
     }
 
     //Подсказка к ПЗ: поделить на 3 отдельные функции и избавиться от index
