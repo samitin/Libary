@@ -1,6 +1,5 @@
 package ru.samitin.libary.presenter
 
-import ru.samitin.libary.R
 import ru.samitin.libary.model.CountersModel
 import ru.samitin.libary.view.MainView
 
@@ -12,21 +11,22 @@ class MainPresenter(val view: MainView) {
         when(type){
             ButtonType.SSECOND -> {
                 val nextValue = model.next(0)
-                view.setButtonText(0, nextValue.toString())
+                view.setButtonText(ButtonType.SSECOND, nextValue.toString())
             }
             ButtonType.FIRST -> {
                 val nextValue = model.next(1)
-                view.setButtonText(1, nextValue.toString())
+                view.setButtonText(ButtonType.FIRST, nextValue.toString())
             }
             ButtonType.THIRD -> {
                 val nextValue = model.next(2)
-                view.setButtonText(2, nextValue.toString())
+                view.setButtonText(ButtonType.THIRD, nextValue.toString())
             }
         }
     }
-    enum class ButtonType{
-        SSECOND,
-        FIRST ,
-        THIRD
-    }
+
+}
+enum class ButtonType{
+    SSECOND,
+    FIRST ,
+    THIRD
 }
