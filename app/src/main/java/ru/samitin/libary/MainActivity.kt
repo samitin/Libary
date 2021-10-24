@@ -1,33 +1,30 @@
 package ru.samitin.libary
 
-import androidx.appcompat.app.AppCompatActivity
+
 import android.os.Bundle
+import moxy.MvpAppCompatActivity
+import moxy.ktx.moxyPresenter
 import ru.samitin.libary.databinding.ActivityMainBinding
-import ru.samitin.libary.presenter.ButtonType
+import ru.samitin.libary.model.CountersModel
 import ru.samitin.libary.presenter.MainPresenter
 import ru.samitin.libary.view.MainView
 
-class MainActivity : AppCompatActivity() , MainView {
+class MainActivity : MvpAppCompatActivity (), MainView {
 
     private var vb: ActivityMainBinding? = null
-    val presenter = MainPresenter(this)
+    private val presenter by moxyPresenter { MainPresenter(CountersModel()) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         vb = ActivityMainBinding.inflate(layoutInflater)
         setContentView(vb?.root)
 
-        vb?.btnCounter1?.setOnClickListener { presenter.counterClick(ButtonType.SSECOND) }
-        vb?.btnCounter2?.setOnClickListener { presenter.counterClick(ButtonType.FIRST) }
-        vb?.btnCounter3?.setOnClickListener{presenter.counterClick(ButtonType.THIRD)}
+        vb?.btnCounter1?.setOnClickListener { presenter.counterOneClick() }
+        vb?.btnCounter2?.setOnClickListener { presenter.counterTwoClick() }
+        vb?.btnCounter3?.setOnClickListener { presenter.counterThreeClick() }
     }
-
     //Подсказка к ПЗ: поделить на 3 отдельные функции и избавиться от index
-    override fun setButtonText(type: ButtonType, text: String) {
-        when(type){
-           ButtonType.SSECOND -> vb?.btnCounter1?.text = text
-            ButtonType.FIRST -> vb?.btnCounter2?.text = text
-            ButtonType.THIRD -> vb?.btnCounter3?.text = text
-        }
-    }
+    override fun setButtonOneText(text: String) { vb?.btnCounter1?.text = text }
+    override fun setButtonTwoText(text: String) { vb?.btnCounter2?.text = text }
+    override fun setButtonThreeText(text: String) { vb?.btnCounter3?.text = text }
 }

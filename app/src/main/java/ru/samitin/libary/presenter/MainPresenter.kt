@@ -1,32 +1,23 @@
 package ru.samitin.libary.presenter
 
+import moxy.MvpPresenter
 import ru.samitin.libary.model.CountersModel
 import ru.samitin.libary.view.MainView
 
-class MainPresenter(val view: MainView) {
-    val model = CountersModel()
+class MainPresenter(val model: CountersModel): MvpPresenter<MainView>() {
 
-    //Архитектурная ошибка. В качестве практического задания -- исправить
-    fun counterClick(type: ButtonType){
-        when(type){
-            ButtonType.SSECOND -> {
-                val nextValue = model.next(0)
-                view.setButtonText(ButtonType.SSECOND, nextValue.toString())
-            }
-            ButtonType.FIRST -> {
-                val nextValue = model.next(1)
-                view.setButtonText(ButtonType.FIRST, nextValue.toString())
-            }
-            ButtonType.THIRD -> {
-                val nextValue = model.next(2)
-                view.setButtonText(ButtonType.THIRD, nextValue.toString())
-            }
-        }
+    fun counterOneClick() {
+        val nextValue = model.next(0)
+        viewState.setButtonOneText(nextValue.toString())
     }
 
-}
-enum class ButtonType{
-    SSECOND,
-    FIRST ,
-    THIRD
+    fun counterTwoClick() {
+        val nextValue = model.next(1)
+        viewState.setButtonTwoText(nextValue.toString())
+    }
+
+    fun counterThreeClick() {
+        val nextValue = model.next(2)
+        viewState.setButtonThreeText(nextValue.toString())
+    }
 }

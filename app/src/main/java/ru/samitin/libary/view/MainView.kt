@@ -1,7 +1,12 @@
 package ru.samitin.libary.view
 
-import ru.samitin.libary.presenter.ButtonType
+import moxy.MvpView
+import moxy.viewstate.strategy.AddToEndSingleStrategy
+import moxy.viewstate.strategy.StateStrategyType
 
-interface MainView {
-    fun setButtonText(index: ButtonType, text: String)
+@StateStrategyType(AddToEndSingleStrategy::class)
+interface MainView :MvpView{
+    fun setButtonOneText(text: String)
+    fun setButtonTwoText(text: String)
+    fun setButtonThreeText(text: String)
 }
