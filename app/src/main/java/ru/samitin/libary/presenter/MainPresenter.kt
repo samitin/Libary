@@ -1,36 +1,21 @@
 package ru.samitin.libary.presenter
 
+import com.github.terrakok.cicerone.Router
 import moxy.MvpPresenter
-import ru.samitin.libary.model.CountersModel
 import ru.samitin.libary.model.GithubUser
 import ru.samitin.libary.model.GithubUsersRepo
 import ru.samitin.libary.model.UserItemView
 import ru.samitin.libary.view.MainView
+import ru.samitin.libary.view.cicirone.IScreens
 
-class MainPresenter(val userRepo: GithubUsersRepo): MvpPresenter<MainView>() {
-
-class UsersListPresenter : IUserListPresenter {
-    val users= mutableListOf<GithubUser>()
-    override var itemClickListener: ((UserItemView) -> Unit)?=null
-    override fun getCount(): Int =users.size
-    override fun bindView(view: UserItemView) {
-        val user=users[view.pos]
-        view.setLogin(user.login)
-    }
-}
-    var usersListPresenter=UsersListPresenter()
+class MainPresenter(val router: Router, val screens: IScreens) : MvpPresenter<MainView>() {
 
     override fun onFirstViewAttach() {
         super.onFirstViewAttach()
-        viewState.init()
-        loadData()
-        usersListPresenter.itemClickListener = { itemView ->
-            //TODO: переход на экран пользователя
-        }
+        router.replaceScreen(screens.users())
     }
-        fun loadData(){
-            val users=userRepo.getUsers()
-            usersListPresenter.users.addAll(users)
-            viewState.updateList()
-        }
+
+    fun backClicked() {
+        router.exit()
+    }
 }

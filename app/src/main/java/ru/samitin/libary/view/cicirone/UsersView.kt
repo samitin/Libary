@@ -1,8 +1,11 @@
-package ru.samitin.libary.view
+package ru.samitin.libary.view.cicirone
 
 import moxy.MvpView
 import moxy.viewstate.strategy.AddToEndSingleStrategy
 import moxy.viewstate.strategy.StateStrategyType
 
 @StateStrategyType(AddToEndSingleStrategy::class)
-interface MainView : MvpView
+interface  UsersView: MvpView {
+    fun init()
+    fun updateList()
+}
