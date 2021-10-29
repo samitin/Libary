@@ -6,9 +6,11 @@ import ru.samitin.libary.model.GithubUser
 import ru.samitin.libary.model.GithubUsersRepo
 import ru.samitin.libary.model.UserItemView
 import ru.samitin.libary.presenter.IUserListPresenter
+import ru.samitin.libary.view.cicirone.AndroidScreens
 import ru.samitin.libary.view.cicirone.UsersView
 
 class UsersPresenter(val usersRepo: GithubUsersRepo,val router: Router): MvpPresenter<UsersView>() {
+    private val screens:AndroidScreens= AndroidScreens()
     class UsersListPresenter: IUserListPresenter{
         val users = mutableListOf<GithubUser>()
         override var itemClickListener: ((UserItemView) -> Unit)?=null
@@ -24,6 +26,7 @@ class UsersPresenter(val usersRepo: GithubUsersRepo,val router: Router): MvpPres
         loadData()
         usersListPresenter.itemClickListener = {itemView ->
             //TODO: переход на экран пользователя c помощью router.navigateTo
+            router.navigateTo(screens.user(usersListPresenter.users[itemView.pos]))
         }
     }
     fun loadData(){

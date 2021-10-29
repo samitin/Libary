@@ -2,16 +2,12 @@ package ru.samitin.libary.view
 
 
 import android.os.Bundle
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.github.terrakok.cicerone.androidx.AppNavigator
 import moxy.MvpAppCompatActivity
 import moxy.ktx.moxyPresenter
 import ru.samitin.libary.R
 import ru.samitin.libary.databinding.ActivityMainBinding
-import ru.samitin.libary.model.GithubUsersRepo
 import ru.samitin.libary.presenter.MainPresenter
-import ru.samitin.libary.view.MainView
-import ru.samitin.libary.view.UsersRVAdapter
 import ru.samitin.libary.view.cicirone.AndroidScreens
 import ru.samitin.libary.view.cicirone.App
 import ru.samitin.libary.view.cicirone.BackButtonListener
