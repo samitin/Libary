@@ -26,7 +26,7 @@ class UserFragment: MvpAppCompatFragment(),UserView,BackButtonListener {
     }
     val presenter: UserPresenter by moxyPresenter {
         val user=arguments?.getParcelable<GithubUser>(USER_KEY)
-        UserPresenter(user!!, App.instance.router)
+        UserPresenter( App.instance.router,user!!)
 
     }
     var _binding: FragmentUserBinding?=null
@@ -50,5 +50,8 @@ class UserFragment: MvpAppCompatFragment(),UserView,BackButtonListener {
     }
 
     override fun backPressed() = presenter.backPressed()
+    override fun setLogin(login: String) {
+        binding.userLogin.text=login
+    }
 
 }

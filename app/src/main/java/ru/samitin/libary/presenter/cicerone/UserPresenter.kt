@@ -5,9 +5,15 @@ import moxy.MvpPresenter
 import ru.samitin.libary.model.GithubUser
 import ru.samitin.libary.view.cicirone.UserView
 
-class UserPresenter(val user:GithubUser,val router:Router): MvpPresenter<UserView>() {
+class UserPresenter(val router: Router, val user: GithubUser) : MvpPresenter<UserView>() {
 
-    fun backPressed():Boolean{
+    override fun onFirstViewAttach() {
+        super.onFirstViewAttach()
+        user.login?.let { viewState.setLogin(it) }
+
+    }
+
+    fun backPressed(): Boolean {
         router.exit()
         return true
     }
