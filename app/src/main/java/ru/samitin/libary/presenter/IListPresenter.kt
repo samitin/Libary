@@ -10,3 +10,4 @@ interface IListPresenter<V:ItemView> {
 }
 
 interface IUserListPresenter : IListPresenter<UserItemView>
+

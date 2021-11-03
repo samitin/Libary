@@ -1,10 +1,15 @@
 package ru.samitin.libary
 
 import io.reactivex.rxjava3.core.Observable
+import io.reactivex.rxjava3.observers.DisposableSingleObserver
 
 
 import org.junit.Assert.*
 import org.junit.Test
+import ru.samitin.libary.model.ApiHolder
+import ru.samitin.libary.model.GithubUser
+import ru.samitin.libary.model.IDataSource
+import ru.samitin.libary.model.userRepositories.IDataSourceRepos
 import java.util.concurrent.TimeUnit
 
 /**
@@ -99,6 +104,16 @@ class ExampleUnitTest {
             .subscribe ({ println("element=  $it") },
             { println(it.message)})
        // Thread.sleep(10000)
+    }
+    @Test
+    fun repos(){
+        val data:IDataSourceRepos=ApiHolder.apiRepos
+        data.getRepos("mojombo").subscribe({ s ->
+             s.map { println("onSuccess: $it") }
+        }, {
+            println("onError: ${it.message}")
+        })
+        Thread.sleep(5000)
     }
 }
 class Test1(val element:String?=null)

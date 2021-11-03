@@ -10,7 +10,6 @@ import moxy.MvpAppCompatFragment
 import moxy.ktx.moxyPresenter
 import ru.samitin.libary.databinding.FragmentUsersBinding
 import ru.samitin.libary.model.ApiHolder
-import ru.samitin.libary.model.GithubUsersRepo
 import ru.samitin.libary.model.GlideImageLoader
 import ru.samitin.libary.model.RetrofitGithubUsersRepo
 import ru.samitin.libary.presenter.cicerone.UsersPresenter
