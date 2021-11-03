@@ -108,7 +108,7 @@ class ExampleUnitTest {
     @Test
     fun repos(){
         val data:IDataSourceRepos=ApiHolder.apiRepos
-        data.getRepos("mojombo").subscribe({ s ->
+        data.getRepos("https://api.github.com/users/mojombo/repos").subscribe({ s ->
              s.map { println("onSuccess: $it") }
         }, {
             println("onError: ${it.message}")

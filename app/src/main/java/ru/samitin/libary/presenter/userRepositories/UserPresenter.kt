@@ -1,5 +1,6 @@
 package ru.samitin.libary.presenter.userRepositories
 
+import android.widget.Toast
 import com.github.terrakok.cicerone.Router
 import io.reactivex.rxjava3.core.Scheduler
 import moxy.MvpPresenter
@@ -29,8 +30,9 @@ class UserPresenter(val uiScheduler: Scheduler, val usersRepo: IGithubUserRepos,
       loadData()
       userListRepositoriesPresenter.itemClickListener = { itemView ->
           //TODO: переход на экран пользователя c помощью router.navigateTo
-         // val repo = userListRepositoriesPresenter.repos[itemView.pos]
-         // router.navigateTo(screens.user(repo))
+          val fork = userListRepositoriesPresenter.repos[itemView.pos].forks
+
+          router.navigateTo(screens.fork(fork!!))
       }
   }
 
