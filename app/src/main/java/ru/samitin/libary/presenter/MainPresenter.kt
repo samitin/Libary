@@ -1,32 +1,18 @@
 package ru.samitin.libary.presenter
 
-import ru.samitin.libary.model.CountersModel
+import com.github.terrakok.cicerone.Router
+import moxy.MvpPresenter
 import ru.samitin.libary.view.MainView
+import ru.samitin.libary.view.cicirone.IScreens
 
-class MainPresenter(val view: MainView) {
-    val model = CountersModel()
+class MainPresenter(val router: Router, val screens: IScreens) : MvpPresenter<MainView>() {
 
-    //Архитектурная ошибка. В качестве практического задания -- исправить
-    fun counterClick(type: ButtonType){
-        when(type){
-            ButtonType.SSECOND -> {
-                val nextValue = model.next(0)
-                view.setButtonText(ButtonType.SSECOND, nextValue.toString())
-            }
-            ButtonType.FIRST -> {
-                val nextValue = model.next(1)
-                view.setButtonText(ButtonType.FIRST, nextValue.toString())
-            }
-            ButtonType.THIRD -> {
-                val nextValue = model.next(2)
-                view.setButtonText(ButtonType.THIRD, nextValue.toString())
-            }
-        }
+    override fun onFirstViewAttach() {
+        super.onFirstViewAttach()
+        router.replaceScreen(screens.users())
     }
 
-}
-enum class ButtonType{
-    SSECOND,
-    FIRST ,
-    THIRD
+    fun backClicked() {
+        router.exit()
+    }
 }
