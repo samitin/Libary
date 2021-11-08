@@ -1,19 +1,19 @@
 package ru.samitin.libary.presenter.userRepositories
 
-import android.widget.Toast
 import com.github.terrakok.cicerone.Router
 import io.reactivex.rxjava3.core.Scheduler
 import moxy.MvpPresenter
-import ru.samitin.libary.model.userRepositories.GithubRepo
-import ru.samitin.libary.model.userRepositories.IGithubUserRepos
+import ru.samitin.libary.model.GithubUser
+import ru.samitin.libary.model.userRepositories.GithubRepository
+import ru.samitin.libary.model.userRepositories.IGithubRepositoriesRepo
 import ru.samitin.libary.model.userRepositories.RepoItemView
 import ru.samitin.libary.view.cicirone.IScreens
 import ru.samitin.libary.view.userRepositories.UserView
 
-class UserPresenter(val uiScheduler: Scheduler, val usersRepo: IGithubUserRepos, val router: Router, val screens: IScreens,val repoUrl:String): MvpPresenter<UserView>() {
+class UserPresenter(val uiScheduler: Scheduler, val usersRepo: IGithubRepositoriesRepo, val router: Router, val screens: IScreens, val user: GithubUser?): MvpPresenter<UserView>() {
 
     class UserListRepositoriesPresenter : IUserListRepositoriesPresenter {
-        val repos = mutableListOf<GithubRepo>()
+        val repos = mutableListOf<GithubRepository>()
         override var itemClickListener: ((RepoItemView) -> Unit)? = null
         override fun getCount(): Int = repos.size
         override fun bindView(view: RepoItemView) {
@@ -37,13 +37,15 @@ class UserPresenter(val uiScheduler: Scheduler, val usersRepo: IGithubUserRepos,
   }
 
   fun loadData() {
-      usersRepo.getRepos(repoUrl)
-          .observeOn(uiScheduler)
-          .subscribe({ repos ->
-              userListRepositoriesPresenter.repos.clear()
-              userListRepositoriesPresenter.repos.addAll(repos)
-              viewState.updateList()
-          }, { println("Error ${it.message}") })
+      if (user != null) {
+          usersRepo.getRepositories(user)
+              .observeOn(uiScheduler)
+              .subscribe({ repos ->
+                  userListRepositoriesPresenter.repos.clear()
+                  userListRepositoriesPresenter.repos.addAll(repos)
+                  viewState.updateList()
+              }, { println("Error ${it.message}") })
+      }
 
   }
 
