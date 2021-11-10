@@ -14,6 +14,7 @@ import ru.samitin.libary.model.GithubUser
 import ru.samitin.libary.model.room.AndroidNetworkStatus
 import ru.samitin.libary.model.room.Database
 import ru.samitin.libary.model.userRepositories.RetrofitGithubRepositoriesRepo
+import ru.samitin.libary.model.userRepositories.RoomRepositoriesCache
 import ru.samitin.libary.presenter.userRepositories.UserPresenter
 import ru.samitin.libary.view.cicirone.AndroidScreens
 import ru.samitin.libary.view.cicirone.App
@@ -35,7 +36,7 @@ class UserFragment: MvpAppCompatFragment(),UserView, BackButtonListener {
         val user=arguments?.getParcelable<GithubUser>(USER_KEY)
 
         UserPresenter(     AndroidSchedulers.mainThread(),
-            RetrofitGithubRepositoriesRepo(ApiHolder.api, AndroidNetworkStatus(requireContext()), Database.getInstance()),
+            RetrofitGithubRepositoriesRepo(ApiHolder.api, AndroidNetworkStatus(requireContext()), RoomRepositoriesCache(Database.getInstance())),
             App.instance.router, AndroidScreens(),user)
 
     }
