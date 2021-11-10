@@ -11,8 +11,10 @@ import moxy.ktx.moxyPresenter
 import ru.samitin.libary.databinding.FragmentUserBinding
 import ru.samitin.libary.model.ApiHolder
 import ru.samitin.libary.model.GithubUser
-import ru.samitin.libary.model.RetrofitGithubUsersRepo
-import ru.samitin.libary.model.userRepositories.RetrofitGithubUserRepos
+import ru.samitin.libary.model.room.AndroidNetworkStatus
+import ru.samitin.libary.model.room.Database
+import ru.samitin.libary.model.userRepositories.RetrofitGithubRepositoriesRepo
+import ru.samitin.libary.model.userRepositories.RoomRepositoriesCache
 import ru.samitin.libary.presenter.userRepositories.UserPresenter
 import ru.samitin.libary.view.cicirone.AndroidScreens
 import ru.samitin.libary.view.cicirone.App
@@ -34,8 +36,8 @@ class UserFragment: MvpAppCompatFragment(),UserView, BackButtonListener {
         val user=arguments?.getParcelable<GithubUser>(USER_KEY)
 
         UserPresenter(     AndroidSchedulers.mainThread(),
-            RetrofitGithubUserRepos(ApiHolder.apiRepos),
-            App.instance.router, AndroidScreens(),user?.reposUrl!!)
+            RetrofitGithubRepositoriesRepo(ApiHolder.api, AndroidNetworkStatus(requireContext()), RoomRepositoriesCache(Database.getInstance())),
+            App.instance.router, AndroidScreens(),user)
 
     }
     var adapterUserReposAdapter:UserReposAdapter?=null
