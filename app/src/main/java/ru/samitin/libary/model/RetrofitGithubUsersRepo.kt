@@ -9,7 +9,7 @@ import ru.samitin.libary.model.room.INetworkStatus
 import ru.samitin.libary.model.room.RoomGithubUser
 
 //Практическое задание 1 - вытащить кэширование в отдельный класс RoomUserCache и внедрить его сюда через интерфейс IUserCache
-class RetrofitGithubUsersRepo(val api: IDataSource, val networkStatus: INetworkStatus, val userCach:IUserCache) : IGithubUsersRepo {
+class RetrofitGithubUsersRepo(val api: IDataSource, val networkStatus: INetworkStatus, val userCach:IGithubUsersCache) : IGithubUsersRepo {
 
     override fun getUsers() = networkStatus.isOnlineSingle().flatMap { isOnline ->
         if (isOnline) {
@@ -27,11 +27,11 @@ class RetrofitGithubUsersRepo(val api: IDataSource, val networkStatus: INetworkS
         }
     }.subscribeOn(Schedulers.io())
 }
-interface IUserCache{
+interface IGithubUsersCache{
     fun saveUsersCach(userList:List<GithubUser>)
     fun getUsersCach():List<GithubUser>
 }
-class RoomUserCache(private val db:Database):IUserCache{
+class RoomGithubUsersCache(private val db:Database):IGithubUsersCache{
     override fun saveUsersCach(users:List<GithubUser>)  {
         val roomUsers = users.map { user -> RoomGithubUser(user.id ?: "", user.login ?: "", user.avatarUrl ?: "", user.reposUrl ?: "") }
         db.userDao.insert(roomUsers)

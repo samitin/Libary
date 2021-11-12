@@ -9,8 +9,12 @@ import ru.samitin.libary.model.userRepositories.IGithubRepositoriesRepo
 import ru.samitin.libary.model.userRepositories.RepoItemView
 import ru.samitin.libary.view.cicirone.IScreens
 import ru.samitin.libary.view.userRepositories.UserView
+import javax.inject.Inject
 
-class UserPresenter(val uiScheduler: Scheduler, val usersRepo: IGithubRepositoriesRepo, val router: Router, val screens: IScreens, val user: GithubUser?): MvpPresenter<UserView>() {
+class UserPresenter(val uiScheduler: Scheduler, val user: GithubUser?): MvpPresenter<UserView>() {
+    @Inject lateinit var repositoriesRepo: IGithubRepositoriesRepo
+    @Inject lateinit var router: Router
+    @Inject lateinit var screens: IScreens
 
     class UserListRepositoriesPresenter : IUserListRepositoriesPresenter {
         val repos = mutableListOf<GithubRepository>()
@@ -38,7 +42,7 @@ class UserPresenter(val uiScheduler: Scheduler, val usersRepo: IGithubRepositori
 
   fun loadData() {
       if (user != null) {
-          usersRepo.getRepositories(user)
+          repositoriesRepo.getRepositories(user)
               .observeOn(uiScheduler)
               .subscribe({ repos ->
                   userListRepositoriesPresenter.repos.clear()

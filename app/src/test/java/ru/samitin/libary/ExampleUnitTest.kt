@@ -1,14 +1,10 @@
 package ru.samitin.libary
 
 import io.reactivex.rxjava3.core.Observable
-import io.reactivex.rxjava3.observers.DisposableSingleObserver
 
 
 import org.junit.Assert.*
 import org.junit.Test
-import ru.samitin.libary.model.ApiHolder
-import ru.samitin.libary.model.GithubUser
-import ru.samitin.libary.model.IDataSource
 import ru.samitin.libary.model.userRepositories.IDataSourceRepos
 import java.util.concurrent.TimeUnit
 

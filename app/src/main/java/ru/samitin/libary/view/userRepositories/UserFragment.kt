@@ -9,14 +9,8 @@ import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import moxy.MvpAppCompatFragment
 import moxy.ktx.moxyPresenter
 import ru.samitin.libary.databinding.FragmentUserBinding
-import ru.samitin.libary.model.ApiHolder
 import ru.samitin.libary.model.GithubUser
-import ru.samitin.libary.model.room.AndroidNetworkStatus
-import ru.samitin.libary.model.room.Database
-import ru.samitin.libary.model.userRepositories.RetrofitGithubRepositoriesRepo
-import ru.samitin.libary.model.userRepositories.RoomRepositoriesCache
 import ru.samitin.libary.presenter.userRepositories.UserPresenter
-import ru.samitin.libary.view.cicirone.AndroidScreens
 import ru.samitin.libary.view.cicirone.App
 import ru.samitin.libary.view.cicirone.BackButtonListener
 
@@ -34,12 +28,9 @@ class UserFragment: MvpAppCompatFragment(),UserView, BackButtonListener {
     }
     val presenter: UserPresenter by moxyPresenter {
         val user=arguments?.getParcelable<GithubUser>(USER_KEY)
-
-        UserPresenter(     AndroidSchedulers.mainThread(),
-            RetrofitGithubRepositoriesRepo(ApiHolder.api, AndroidNetworkStatus(requireContext()), RoomRepositoriesCache(Database.getInstance())),
-            App.instance.router, AndroidScreens(),user)
-
+        UserPresenter(AndroidSchedulers.mainThread(),user).apply { App.instance.appComponent.inject(this) }
     }
+
     var adapterUserReposAdapter:UserReposAdapter?=null
     var _binding: FragmentUserBinding?=null
     private val binding get() = _binding!!
@@ -48,7 +39,6 @@ class UserFragment: MvpAppCompatFragment(),UserView, BackButtonListener {
         _binding=FragmentUserBinding.inflate(inflater,container,false)
         return binding.root
     }
-
 
     override fun onDestroy() {
         super.onDestroy()
