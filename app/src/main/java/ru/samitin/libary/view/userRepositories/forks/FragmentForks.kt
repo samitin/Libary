@@ -5,12 +5,14 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.github.terrakok.cicerone.Router
 import moxy.MvpAppCompatFragment
 import moxy.ktx.moxyPresenter
 import ru.samitin.libary.databinding.FragmentForksBinding
 import ru.samitin.libary.presenter.userRepositories.forks.ForksPresenter
 import ru.samitin.libary.view.cicirone.App
 import ru.samitin.libary.view.cicirone.BackButtonListener
+import javax.inject.Inject
 
 const val FORKS_KEY="FORKS_KEY"
 class FragmentForks:  MvpAppCompatFragment(),ForksView, BackButtonListener {
@@ -21,11 +23,14 @@ class FragmentForks:  MvpAppCompatFragment(),ForksView, BackButtonListener {
             bundle.putInt(FORKS_KEY,forks)
             val fragmentForks= FragmentForks()
             fragmentForks.arguments=bundle
+            App.instance.appComponent.inject(fragmentForks)
             return fragmentForks
         }
     }
+    @Inject
+    lateinit var router: Router
     val presenter: ForksPresenter by moxyPresenter {
-        ForksPresenter(App.instance.router)
+        ForksPresenter(router)
     }
 
     var _binding: FragmentForksBinding?=null

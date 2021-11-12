@@ -9,9 +9,13 @@ import ru.samitin.libary.model.UserItemView
 import ru.samitin.libary.presenter.IUserListPresenter
 import ru.samitin.libary.view.cicirone.IScreens
 import ru.samitin.libary.view.cicirone.UsersView
+import javax.inject.Inject
 
-class UsersPresenter(val uiScheduler: Scheduler, val usersRepo: IGithubUsersRepo, val router: Router, val screens: IScreens): MvpPresenter<UsersView>() {
+class UsersPresenter(val uiScheduler: Scheduler): MvpPresenter<UsersView>() {
 
+    @Inject lateinit var usersRepo: IGithubUsersRepo
+    @Inject lateinit var router: Router
+    @Inject lateinit var screens: IScreens
     class UsersListPresenter: IUserListPresenter{
         val users = mutableListOf<GithubUser>()
         override var itemClickListener: ((UserItemView) -> Unit)?=null

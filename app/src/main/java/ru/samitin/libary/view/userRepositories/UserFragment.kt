@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.github.terrakok.cicerone.Router
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import moxy.MvpAppCompatFragment
 import moxy.ktx.moxyPresenter
@@ -19,6 +20,7 @@ import ru.samitin.libary.presenter.userRepositories.UserPresenter
 import ru.samitin.libary.view.cicirone.AndroidScreens
 import ru.samitin.libary.view.cicirone.App
 import ru.samitin.libary.view.cicirone.BackButtonListener
+import javax.inject.Inject
 
 const val USER_KEY="USER_KEY";
 class UserFragment: MvpAppCompatFragment(),UserView, BackButtonListener {
@@ -35,9 +37,9 @@ class UserFragment: MvpAppCompatFragment(),UserView, BackButtonListener {
     val presenter: UserPresenter by moxyPresenter {
         val user=arguments?.getParcelable<GithubUser>(USER_KEY)
 
-        UserPresenter(     AndroidSchedulers.mainThread(),
-            RetrofitGithubRepositoriesRepo(ApiHolder.api, AndroidNetworkStatus(requireContext()), RoomRepositoriesCache(Database.getInstance())),
-            App.instance.router, AndroidScreens(),user)
+        UserPresenter(AndroidSchedulers.mainThread(),user).apply {
+            App.instance.appComponent.inject(this)
+        }
 
     }
     var adapterUserReposAdapter:UserReposAdapter?=null
