@@ -17,13 +17,7 @@ import javax.inject.Inject
 
 class UsersFragment : MvpAppCompatFragment(), UsersView, BackButtonListener {
 
-    companion object {
-        fun newInstance() = UsersFragment().apply {
-
-        }
-    }
-
-
+    companion object { fun newInstance() = UsersFragment() }
 
     val presenter: UsersPresenter by moxyPresenter {
         UsersPresenter(AndroidSchedulers.mainThread()).apply {
@@ -35,9 +29,7 @@ class UsersFragment : MvpAppCompatFragment(), UsersView, BackButtonListener {
     private var vb: FragmentUsersBinding? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?) =
-        FragmentUsersBinding.inflate(inflater, container, false).also {
-            vb = it
-        }.root
+        FragmentUsersBinding.inflate(inflater, container, false).also { vb = it }.root
 
     override fun onDestroyView() {
         super.onDestroyView()
@@ -46,12 +38,7 @@ class UsersFragment : MvpAppCompatFragment(), UsersView, BackButtonListener {
 
     override fun init() {
         vb?.rvUsers?.layoutManager = LinearLayoutManager(context)
-        adapter = UsersRVAdapter(
-            presenter.usersListPresenter,
-            GlideImageLoader()
-            //GlideImageLoader(RoomImageCache(database, App.instance.cacheDir), AndroidNetworkStatus(requireContext())
-
-        )
+        adapter = UsersRVAdapter(presenter.usersListPresenter, GlideImageLoader())
         vb?.rvUsers?.adapter = adapter
     }
 
